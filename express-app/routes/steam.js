@@ -1,50 +1,81 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
-const http = require('http');
+
+const listurl = "http://api.steampowered.com/ISteamApps/GetAppList/v2/";
+const storeurl = "https://store.steampowered.com/api/appdetails?appids=";
+
 
 /* GET home page. */
-router.get('/search/:tag', function(req, res, next) {
-    const tag = req.params.tag
-    const url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?tag=" + tag
+router.get('/search/', async function(req, res, next) {
+    try{
+        const gameList = await axios.get(listurl);
+        const processedGameList = processGameList(gameList.data.applist.apps);
 
-    console.log(url)
-    
-    const steamReq = http.request(url, (steamRes) => {
-        let body = [];
-        steamRes.on('data',function(chunk) {
-            body.push(chunk);
-        });
-        steamRes.on('end', function() {
-            res.writeHead(steamRes.statusCode,{'content-type':'text/html'});
-            const bodyString = body.join('');
-            const rsp = JSON.parse(bodyString).applist;
-            for (let i=0; i<35;i++){
-                rsp.apps.shift()
-            }
-            const s = createPage('Flickr Photo Search',rsp);
-            console.log(rsp);
-            res.write(s);
-            res.end();
-        });
-    });
+        const randGames = await getGames(processedGameList);
 
-    steamReq.on('error', (e) => {
-        console.error(e);
-    });
+        res.json(randGames);
+
+    } catch (error) {
+        console.log(error)
+    }
     
-    steamReq.end();
+    
 });
 
-function createPage(title,rsp) {
+// Remove filler entries from steam API
+function processGameList(gameList){
 
-    //Headers and opening body, then main content and close
-    const str = '<!DOCTYPE html>' +
-    '<html><head><title>Flickr JSON</title></head>' +
-    '<body>' +
-    '<h1>' + title + '</h1>' +
-    'Total number of entries is: ' + rsp.apps + '</br>' +
-    '</body></html>';
-    return str;
-   } 
+    for (let i=0; i<35; i++){
+        gameList.shift();
+    }
+
+    return gameList
+}
+
+// Get the games from the game list
+async function getGames(gameList) {
+
+    let randGames = [];
+    let prevGames = [];
+
+    try {
+        while(randGames.length < 3){
+
+            const index = Math.floor(Math.random() * gameList.length);
+            if(prevGames.includes(index)) continue;
+            const appid = gameList[index].appid;
+
+            const gameData = await getGameData(appid);
+            if(gameData === undefined) continue;
+
+            randGames.push(gameData);
+            prevGames.push(index);
+        }
+
+    } catch (error) {
+        throw error
+    }
+
+    return randGames;
+}
+  
+// Get the game data with the appid
+async function getGameData(appid) {
+    try {
+        const gameData = await axios.get(storeurl + appid);
+        const gameDataRefined = gameData.data[String(appid)]
+
+        if (gameDataRefined.success === false) return;
+
+        console.log(gameDataRefined.data.type)
+        if (gameDataRefined.data.type !== "game") return;
+        if (gameDataRefined.data.short_description === '') return;
+
+        return gameDataRefined.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports = router;
