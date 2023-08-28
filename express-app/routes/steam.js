@@ -7,7 +7,7 @@ const storeurl = "https://store.steampowered.com/api/appdetails?appids=";
 
 
 /* GET home page. */
-router.get('/search/', async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try{
         const gameList = await axios.get(listurl);
         const processedGameList = processGameList(gameList.data.applist.apps);
