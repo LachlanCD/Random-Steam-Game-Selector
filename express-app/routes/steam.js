@@ -12,7 +12,10 @@ router.get('/', async function(req, res, next) {
         const gameList = await axios.get(listurl);
         const processedGameList = processGameList(gameList.data.applist.apps);
 
-        const randGames = await getGames(processedGameList);
+        let randGames = [];
+        let prevGames = [];
+
+        await getGames(processedGameList, randGames, prevGames);
 
         res.json(randGames);
 
@@ -34,30 +37,23 @@ function processGameList(gameList){
 }
 
 // Get the games from the game list
-async function getGames(gameList) {
-
-    let randGames = [];
-    let prevGames = [];
+async function getGames(gameList, randGames, prevGames) {
 
     try {
-        while(randGames.length < 3){
+        const index = Math.floor(Math.random() * gameList.length);
+        const appid = gameList[index].appid;
 
-            const index = Math.floor(Math.random() * gameList.length);
-            if(prevGames.includes(index)) continue;
-            const appid = gameList[index].appid;
+        const gameData = await getGameData(appid);
+        if(gameData !== undefined) randGames.push(gameData);
 
-            const gameData = await getGameData(appid);
-            if(gameData === undefined) continue;
-
-            randGames.push(gameData);
-            prevGames.push(index);
-        }
+        prevGames.push(index);
 
     } catch (error) {
         throw error
     }
 
-    return randGames;
+    if (randGames.length === 3) return randGames;    
+    await getGames(gameList, randGames, prevGames);
 }
   
 // Get the game data with the appid
@@ -71,6 +67,7 @@ async function getGameData(appid) {
         console.log(gameDataRefined.data.type)
         if (gameDataRefined.data.type !== "game") return;
         if (gameDataRefined.data.short_description === '') return;
+        if ((gameDataRefined.data.name).includes("战")) return;
 
         return gameDataRefined.data;
     } catch (error) {
