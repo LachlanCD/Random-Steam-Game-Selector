@@ -12,7 +12,7 @@ router.get('/:query', async function(req, res, next) {
     try{
         const vidList = await axios.get(url);
 
-        res.json(vidList.data);
+        res.json(vidList.data.items);
 
     } catch (error) {
         console.log(error)

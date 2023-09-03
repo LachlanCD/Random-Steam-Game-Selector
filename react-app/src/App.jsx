@@ -1,18 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { React } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css'
-import Game from "./components/Game";
+import RandGames from "./pages/RandGames";
+import GameInfo from "./pages/GameInfo";
+import Youtube from './pages/Youtube';
 
 function App() {
   return (
-    <div>
-      <main className="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Game />
-      </main>
-
-      
-    </div>
+    <BrowserRouter>
+      <div>
+        <main className="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Routes>
+            <Route path="/" element={<RandGames />} />
+            <Route path="/gameInfo" element={<GameInfo />} />
+            <Route path="/youtube" element={<Youtube />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   )
 }
 
