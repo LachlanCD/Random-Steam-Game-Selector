@@ -16,6 +16,7 @@ router.get('/', async function(req, res, next) {
         let prevGames = [];
 
         await getGames(processedGameList, randGames, prevGames);
+     
 
         res.json(randGames);
 

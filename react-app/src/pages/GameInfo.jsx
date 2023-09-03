@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 export default function GameInfo(){
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
-    const url = `http://localhost:8000/stea/${id}`
+    const url = `http://localhost:8000/steam/${id}`
 
     const [game, setGame] = useState({});
     const [loading, setLoading] = useState(true);
