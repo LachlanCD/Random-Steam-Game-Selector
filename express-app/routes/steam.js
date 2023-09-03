@@ -21,9 +21,17 @@ router.get('/', async function(req, res, next) {
 
     } catch (error) {
         console.log(error)
+    }    
+});
+
+router.get('/:id', async function(req, res, next){
+    try {
+        const id = req.params.id
+        const gameData = await getGameData(id)
+        res.json(gameData);
+    } catch (error) {
+        console.log(error)
     }
-    
-    
 });
 
 // Remove filler entries from steam API
@@ -67,7 +75,6 @@ async function getGameData(appid) {
         console.log(gameDataRefined.data.type)
         if (gameDataRefined.data.type !== "game") return;
         if (gameDataRefined.data.short_description === '') return;
-        if ((gameDataRefined.data.name).includes("战")) return;
 
         return gameDataRefined.data;
     } catch (error) {
