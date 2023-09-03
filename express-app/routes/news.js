@@ -11,8 +11,9 @@ router.get('/:query', async function(req, res, next) {
 
     try{
         const vidList = await axios.get(url);
-
-        res.json(vidList.data);
+        const data = vidList.data.articles
+        const filteredData = data.filter((item) => item.content !== "[Removed]")
+        res.json(filteredData);
 
     } catch (error) {
         console.log(error)

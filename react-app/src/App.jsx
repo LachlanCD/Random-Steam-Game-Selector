@@ -4,6 +4,7 @@ import './index.css'
 import RandGames from "./pages/RandGames";
 import GameInfo from "./pages/GameInfo";
 import Youtube from './pages/Youtube';
+import News from './pages/News';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<RandGames />} />
             <Route path="/gameInfo" element={<GameInfo />} />
             <Route path="/youtube" element={<Youtube />} />
+            <Route path="/news" element={<News />} />
           </Routes>
         </main>
       </div>
