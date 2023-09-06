@@ -1,11 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
+import { fetchConfig } from "../utils/fetchConfig";
 
 export default function GameInfo(){
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
-    const url = `http://localhost:8000/steam/${id}`
+    const route = `/steam/${id}`
 
     const [game, setGame] = useState({});
     const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ export default function GameInfo(){
     useEffect(() => {
         async function fetchData() {
             try{
+                const url = await fetchConfig() + route
                 const game = await GETData(url);
                 setGame(game);
             } catch (error) {

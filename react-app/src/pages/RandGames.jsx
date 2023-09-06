@@ -1,18 +1,20 @@
 import { GETData } from "../data/GETGame";
 import { useState } from "react";
 import Card from "../components/Card";
+import { fetchConfig } from "../utils/fetchConfig";
 
 export default function RandGames() {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const url = "http://localhost:8000/steam"
+    const route = "/steam"
 
     const handleClick = async () => {
         setLoading(true);
         setError(false);
         try{
+            const url = await fetchConfig() + route
             const games = await GETData(url);
             setGames(games);
         } catch (error) {

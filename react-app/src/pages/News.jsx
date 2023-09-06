@@ -1,12 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
+import { fetchConfig } from "../utils/fetchConfig";
 
 
 export default function News(){
     const [searchParams] = useSearchParams();
     const query = searchParams.get("query");
-    const url = `http://localhost:8000/news/${query}`
+    const route = `/news/${query}`
 
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,6 +16,8 @@ export default function News(){
     useEffect(() => {
         async function fetchData() {
             try{
+                const url = await fetchConfig() + route
+                console.log(url)
                 const results = await GETData(url);
                 console.log(results)
                 setResults(results);
