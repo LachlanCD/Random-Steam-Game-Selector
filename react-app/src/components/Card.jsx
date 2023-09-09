@@ -7,7 +7,7 @@ export default function Card ({game, onHoverChange}) {
 
   const handleMouseEnter = () => {
 
-    onHoverChange("#18181b");
+    onHoverChange("#fff");
   };
 
   const handleMouseLeave = () => {

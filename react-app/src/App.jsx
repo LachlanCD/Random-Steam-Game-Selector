@@ -18,7 +18,7 @@ function App() {
   };
 
   //const bodyClass = isHovered ? `bg-[#bfdbfe] flex flex-col h-screen justify-between ` : `flex flex-col h-screen justify-between bg-[${background}]`; // Change 'bg-blue-200' to your desired background color class
-  const bodyClass = `flex flex-col h-screen justify-between bg-[${background}]`;
+  const bodyClass = background ? `flex flex-col h-screen justify-between bg-[${background}]` : `flex flex-col h-screen justify-between bg-[#18181b]`;
 
 
   return (
