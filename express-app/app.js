@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(fileUpload());
 
+// set routes
 app.use('/', indexRouter);
 app.use('/steam', steamRouter);
 app.use('/youtube', ytRouter);

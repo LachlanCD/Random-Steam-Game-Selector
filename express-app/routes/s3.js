@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 
-
+// set AWS credentials to env variables
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -10,15 +10,17 @@ AWS.config.update({
     region: "ap-southeast-2"
 });
 
+
 const s3 = new AWS.S3();
 
+// initialise bucket and object variables
 const bucketName = "11244682-counter";
 const objectKey = "counter.json";
-
 const jsonData = {
     counter: 1
 }
 
+/* GET and update page visit counter. */
 router.get('/', async (req, res) => {
 
     try {
@@ -34,15 +36,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+// function to create a new bucket
 async function createBucket(){
+
     try {
         await s3.createBucket( { Bucket:bucketName }).promise();
     } catch (err) {
+        // if the bucket exists, dont throw an error
         if (err.statusCode !== 409) throw err;
     }
 }
 
+// function to get current counter from s3 and update local object
 async function getObjectFromS3() {
+
     const params = {
         Bucket: bucketName,
         Key: objectKey,
@@ -53,11 +60,14 @@ async function getObjectFromS3() {
         const parsedData = JSON.parse(data.Body.toString("utf-8"));
         jsonData.counter = parsedData.counter + 1
     } catch (err) {
+        // if the object doesnt exist dont throw an error
         if (err.code !== 'NoSuchKey') throw err;
     }
 }
 
+// function to upload the local object to the s3 bucket
 async function uploadJsonToS3() {
+
     const params = {
         Bucket: bucketName,
         Key: objectKey,
