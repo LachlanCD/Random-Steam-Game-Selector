@@ -29,7 +29,8 @@ router.get('/', async (req, res) => {
         res.json(jsonData);
 
     } catch (err) {
-        res.json(err)
+        res.status(400)
+        res.send({ error: true, message: err.code });
     }
 });
 

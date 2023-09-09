@@ -12,8 +12,12 @@ router.get('/:query', async function(req, res, next) {
 
         res.json(vidList.data.items);
 
-    } catch (error) {
-        console.log(error)
+    } catch (err) {
+        err = {
+            status: err.response.status,
+            message: err.response.statusText,
+        }
+        next(err)
     }
 });
 

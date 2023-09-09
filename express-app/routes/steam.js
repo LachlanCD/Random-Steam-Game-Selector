@@ -20,8 +20,8 @@ router.get('/', async function(req, res, next) {
 
         res.json(randGames);
 
-    } catch (error) {
-        console.log(error)
+    } catch (err) {
+        next(err);
     }    
 });
 
@@ -29,20 +29,19 @@ router.get('/:id', async function(req, res, next){
     try {
         const id = req.params.id
         const gameData = await getGameData(id)
-        res.json(gameData);
-    } catch (error) {
-        console.log(error)
+        if(!checkGame(gameData)) throw {status: 400, message: "ID does not correspond to a game or does not exist."}
+        res.json(gameData.data);
+    } catch (err) {
+        next(err);
     }
 });
 
 // Remove filler entries from steam API
 function processGameList(gameList){
-
     for (let i=0; i<35; i++){
         gameList.shift();
     }
-
-    return gameList
+    return gameList;
 }
 
 // Get the games from the game list
@@ -53,12 +52,13 @@ async function getGames(gameList, randGames, prevGames) {
         const appid = gameList[index].appid;
 
         const gameData = await getGameData(appid);
-        if(gameData !== undefined) randGames.push(gameData);
 
+        if (checkGame(gameData)) randGames.push(gameData.data);
+        
         prevGames.push(index);
 
-    } catch (error) {
-        throw error
+    } catch (err) {
+        throw err;
     }
 
     if (randGames.length === 3) return randGames;    
@@ -70,17 +70,17 @@ async function getGameData(appid) {
     try {
         const gameData = await axios.get(storeurl + appid);
         const gameDataRefined = gameData.data[String(appid)]
-
-        if (gameDataRefined.success === false) return;
-
-        console.log(gameDataRefined.data.type)
-        if (gameDataRefined.data.type !== "game") return;
-        if (gameDataRefined.data.short_description === '') return;
-
-        return gameDataRefined.data;
-    } catch (error) {
-        throw error;
+        return gameDataRefined;
+    } catch (err) {
+        throw err;
     }
+}
+
+function checkGame(gameData) {
+    if (gameData.success === false) return false;
+    if (gameData.data.type !== "game") return false;
+    if (gameData.data.short_description === '') return false;
+    return true
 }
 
 module.exports = router;

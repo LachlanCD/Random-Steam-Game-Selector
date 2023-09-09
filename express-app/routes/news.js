@@ -13,8 +13,14 @@ router.get('/:query', async function(req, res, next) {
         const filteredData = data.filter((item) => item.content !== "[Removed]")
         res.json(filteredData);
 
-    } catch (error) {
-        console.log(error)
+    } catch (err) {
+
+        err = {
+            status: err.response.status,
+            message: err.response.data.message,
+        }
+        
+        next(err)
     }
 });
 
