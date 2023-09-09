@@ -1,5 +1,3 @@
-// api key 792e9726768442e2abdd34239b0337be
-
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();

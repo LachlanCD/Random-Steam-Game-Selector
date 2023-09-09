@@ -12,7 +12,6 @@ const indexRouter = require('./routes/index');
 const steamRouter = require('./routes/steam');
 const ytRouter = require('./routes/youtube');
 const newsRouter = require('./routes/news');
-const twitchRouter = require('./routes/twitch');
 const counterRouter = require('./routes/s3.js');
 
 

@@ -1,5 +1,3 @@
-//AIzaSyAJxzcsGj_2q3mtYT3I61W4EUy_vdlHER0
-
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
