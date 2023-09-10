@@ -9,17 +9,13 @@ import Youtube from './pages/Youtube';
 import News from './pages/News';
 
 function App() {
-  const [background, setBackground] = useState("#3f3f46");
-
-  //bodyClass = `flex flex-col h-screen justify-between` 
-
   return (
     <BrowserRouter>
-      <div className="flex flex-col h-screen justify-between" style={{ backgroundColor: `${background}` }}>
+      <div className="flex flex-col h-screen justify-between bg-[#3f3f46]">
         <Header />
         <main className="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/" element={<RandGames setBackground={setBackground} />} />
+            <Route path="/" element={<RandGames />} />
             <Route path="/gameInfo" element={<GameInfo />} />
             <Route path="/youtube" element={<Youtube />} />
             <Route path="/news" element={<News />} />

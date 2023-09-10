@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import Card from "../components/Card";
 import { fetchConfig } from "../utils/fetchConfig";
 
-export default function RandGames({ setBackground }) {
+export default function RandGames() {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [buttonText, setButtonText] = useState("Get your games");
 
     const route = "/steam"
 
     const handleClick = async () => {
+        setButtonText("Refresh")
         setGames([])
         setLoading(true);
         setError(false);
@@ -28,17 +30,17 @@ export default function RandGames({ setBackground }) {
     return(
         <div className="text-white">
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 xl:grid-cols-3 xl:gap-x-20">
-                {games && games.map((game) => ( <Card key={game.steam_appid} game={game} setBackground={setBackground}/>))}
+                {games && games.map((game) => ( <Card key={game.steam_appid} game={game} />))}
             </div>
             {loading && <p>Loading...</p>}
             {error && <p>Oops, something went wrong!</p>}
             <div className="py-20 text-center">
                 <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-sky-900 hover:bg-sky-700 hover:scale-110 text-white font-bold py-2 px-4 rounded"
                 disabled={loading}
                 onClick={handleClick}
                 >
-                Get your games
+                {buttonText}
                 </button>
                 <div className="mt-2" />
                 <div className="mt-2" />

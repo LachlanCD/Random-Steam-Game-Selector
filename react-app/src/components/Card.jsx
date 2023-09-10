@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ColorExtractor } from 'react-color-extractor';
 
-export default function Card ({game, setBackground}) {
+export default function Card ({game}) {
   const linkToGame = `/gameInfo/?id=${game.steam_appid}`
 
   const [colours, setColours] = useState([]);
@@ -12,7 +12,8 @@ export default function Card ({game, setBackground}) {
 
   return (
     <div className="group relative">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:scale-110">
+      <div className="group-hover:scale-110">
+      <div className="  w-full overflow-hidden rounded-md lg:aspect-none">
       <ColorExtractor getColors={handleColors} >
         <img
           src={game.header_image}
@@ -21,15 +22,16 @@ export default function Card ({game, setBackground}) {
         />
       </ColorExtractor>
       </div>
-      <div className="mt-4 flex justify-between">
+      <div className="mt-1 p-4 rounded-md flex justify-between opacity-0 group-hover:opacity-100" style={{ backgroundColor: `${colours[0]}` }}>
         <div>
-          <h3 className="text-sm text-zinc-200 text-center">
-            <a href={linkToGame} onMouseEnter={() => setBackground(colours[0])} onMouseLeave={() => setBackground("#3f3f46")}>
+          <h3 className="text-sm text-outline-2 text-zinc-50 text-center">
+            <a href={linkToGame}>
               <span aria-hidden="true" className="absolute inset-0" />
-              
             </a>
+            {game.short_description}
           </h3>
         </div>
+      </div>
       </div>
     </div>
   )};
