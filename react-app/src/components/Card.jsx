@@ -22,16 +22,14 @@ export default function Card ({game}) {
         />
       </ColorExtractor>
       </div>
-      <div className="mt-1 p-4 rounded-md flex justify-between opacity-0 group-hover:opacity-100" style={{ backgroundColor: `${colours[0]}` }}>
+      {/* <div className="mt-1 p-4 rounded-md flex justify-between opacity-0 group-hover:opacity-100" style={{ backgroundColor: `${colours[0]}` }}> */}
         <div>
           <h3 className="text-sm text-outline-2 text-zinc-50 text-center">
             <a href={linkToGame}>
               <span aria-hidden="true" className="absolute inset-0" />
             </a>
-            {game.short_description}
           </h3>
         </div>
       </div>
       </div>
-    </div>
   )};
