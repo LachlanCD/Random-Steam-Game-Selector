@@ -1,6 +1,5 @@
-import { React } from 'react'
+import { React, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from 'react';
 import './index.css'
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,24 +9,17 @@ import Youtube from './pages/Youtube';
 import News from './pages/News';
 
 function App() {
-  const [background, setBackground] = useState("#18181b")
+  const [background, setBackground] = useState("#3f3f46");
 
-  const handleHoverChange = (background) => {
-    console.log(background)
-    setBackground(background)
-  };
-
-  //const bodyClass = isHovered ? `bg-[#bfdbfe] flex flex-col h-screen justify-between ` : `flex flex-col h-screen justify-between bg-[${background}]`; // Change 'bg-blue-200' to your desired background color class
-  const bodyClass = background ? `flex flex-col h-screen justify-between bg-[${background}]` : `flex flex-col h-screen justify-between bg-[#18181b]`;
-
+  //bodyClass = `flex flex-col h-screen justify-between` 
 
   return (
     <BrowserRouter>
-      <div className={bodyClass}>
+      <div className="flex flex-col h-screen justify-between" style={{ backgroundColor: `${background}` }}>
         <Header />
         <main className="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/" element={<RandGames onHoverChange={handleHoverChange} />} />
+            <Route path="/" element={<RandGames setBackground={setBackground} />} />
             <Route path="/gameInfo" element={<GameInfo />} />
             <Route path="/youtube" element={<Youtube />} />
             <Route path="/news" element={<News />} />
@@ -40,4 +32,3 @@ function App() {
 }
 
 export default App
-

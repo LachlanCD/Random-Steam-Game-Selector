@@ -27,6 +27,8 @@ export default function Footer (){
         fetchData();
     }, []);
 
+    console.log(error)
+
     return (
         <footer className="bg-gray-900 text-white p-4">
         <div className="container mx-auto flex flex-col items-center justify-center h-full">

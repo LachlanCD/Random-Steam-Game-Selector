@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Card from "../components/Card";
 import { fetchConfig } from "../utils/fetchConfig";
 
-export default function RandGames({ onHoverChange }) {
+export default function RandGames({ setBackground }) {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -28,7 +28,7 @@ export default function RandGames({ onHoverChange }) {
     return(
         <div className="text-white">
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 xl:grid-cols-3 xl:gap-x-20">
-                {games && games.map((game) => ( <Card key={game.steam_appid} game={game} onHoverChange={onHoverChange}/>))}
+                {games && games.map((game) => ( <Card key={game.steam_appid} game={game} setBackground={setBackground}/>))}
             </div>
             {loading && <p>Loading...</p>}
             {error && <p>Oops, something went wrong!</p>}
