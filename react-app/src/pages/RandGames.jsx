@@ -1,5 +1,5 @@
 import { GETData } from "../data/GETGame";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { fetchConfig } from "../utils/fetchConfig";
 
@@ -8,6 +8,14 @@ export default function RandGames() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [buttonText, setButtonText] = useState("Get your games");
+
+    useEffect(() => {
+        const cachedData = localStorage.getItem("games");
+        if(cachedData){
+            setGames(JSON.parse(cachedData));
+            setButtonText("Refresh")
+        } 
+    }, []);
 
     const route = "/steam"
 
@@ -20,6 +28,7 @@ export default function RandGames() {
             const url = await fetchConfig() + route
             const games = await GETData(url);
             setGames(games);
+            localStorage.setItem("games", JSON.stringify(games))
         } catch (error) {
             setError(true);
             console.log(error);
