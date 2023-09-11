@@ -18,18 +18,17 @@ export default function PageSelector(currentPage) {
     }, [localStorage.getItem("curGame")]);
 
     return (
-        <div className=''>
-            <div className="sm:grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-2 flex items-center justify-center absolute top-24 left-20 right-20 ">
-                <button className={buttonStyle.concat((currentPage.currentPage === 'gameInfo') ? selectedBg : unselectedBg)}>
-                    <a href={linkToGame}> GameInfo </a>
-                </button>
-                <button className={buttonStyle.concat((currentPage.currentPage === 'videos') ? selectedBg : unselectedBg)}>
-                    <a href={linkToVideos}> Videos </a>
-                </button>
-                <button className={buttonStyle.concat((currentPage.currentPage === 'news') ? selectedBg : unselectedBg)}>
-                    <a href={linkToNews}> News </a>
-                </button>
-            </div>
+        <div className="sm:grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-2 flex items-center justify-center absolute top-24 left-20 right-20 ">
+            <button className={buttonStyle.concat((currentPage.currentPage === 'gameInfo') ? selectedBg : unselectedBg)}>
+                <a href={linkToGame}> GameInfo </a>
+            </button>
+            <button className={buttonStyle.concat((currentPage.currentPage === 'videos') ? selectedBg : unselectedBg)}>
+                <a href={linkToVideos}> Videos </a>
+            </button>
+            <button className={buttonStyle.concat((currentPage.currentPage === 'news') ? selectedBg : unselectedBg)}>
+                <a href={linkToNews}> News </a>
+            </button>
         </div>
+
     );
 };

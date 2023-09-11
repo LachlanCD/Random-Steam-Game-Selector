@@ -33,7 +33,7 @@ router.get('/:id', async function(req, res, next){
         const gameData = await getGameData(id)
 
         // check if the game is valid throw error if not
-        if(!checkGame(gameData)) throw {status: 400, message: "ID does not correspond to a game or does not exist."}
+        if(!checkGame(gameData)) throw {status: 400, message: "ID does not correspond to a released game or does not exist."}
 
         // return game data
         res.json(gameData.data);
@@ -93,6 +93,7 @@ function checkGame(gameData) {
     if (gameData.success === false) return false;
     if (gameData.data.type !== "game") return false;
     if (gameData.data.short_description === '') return false;
+    if (gameData.data.release_date.coming_soon === true) return false;
     return true
 }
 
