@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
+import PageSelector from "../components/PageSelector";
 
 export default function GameInfo(){
     const [searchParams] = useSearchParams();
@@ -28,9 +29,13 @@ export default function GameInfo(){
         fetchData();
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem("curGame", JSON.stringify(game))
+    }, [game])
+
     return(
         <div className="text-white">
-            <p>fuck</p>
+            < PageSelector currentPage = "gameInfo"/>
             {loading && <p>Loading...</p>}
             {error && <p>Oops, something went wrong!</p>}
             {game && <p>{game.name}</p>}
