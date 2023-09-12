@@ -2,6 +2,10 @@ import { useSearchParams } from "react-router-dom";
 import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
+import {removeHTMLTagsAndDecode} from "../utils/formatting";
+import VideoCard from "../components/VideoCard";
+import PageSelector from "../components/PageSelector";
+import { fixDate } from "../utils/formatting";
 
 
 export default function News(){
@@ -12,6 +16,7 @@ export default function News(){
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [empty, setEmpty] = useState(false);
 
 
     useEffect(() => {
@@ -21,6 +26,7 @@ export default function News(){
                 const results = await GETData(url);
                 const refinedResults = refineResults(results);
                 setResults(refinedResults);
+                results.length > 1 ? setEmpty(false) : setEmpty(true);
             } catch (error) {
                 setError(true);
                 console.log(error);
@@ -33,20 +39,21 @@ export default function News(){
 
     return(
         <div className="text-white">
-            <p>news</p>
-            {loading && <p>Loading...</p>}
-            {error && <p>Oops, something went wrong!</p>}
-            {results && results.map((result) => (<div>{result.title}</div>))}
+            <PageSelector currentPage = "news"/>
+            {loading && <p className="text-center pb-40">Loading...</p>}
+            {error && <p className="text-center pb-40">Oops, something went wrong!</p>}
+            {empty && <p className="pb-40">We were'nt able to find any recent articles on this topic</p>}
+            {results && results.map((result, index) => (<VideoCard key={index} content={result}/>))}
         </div>
     )
 }
 
 function refineResults(results){
     return results.map((result) => ({
-        title: result.title,
-        author: result.author,
-        description: result.description,
-        publishedAt: result.publishedAt,
+        title: removeHTMLTagsAndDecode(result.title),
+        author: removeHTMLTagsAndDecode(result.author),
+        description: removeHTMLTagsAndDecode(result.description),
+        publishedAt: fixDate(result.publishedAt),
         image: result.urlToImage,
         url: result.url
     }))

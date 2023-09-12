@@ -2,6 +2,10 @@ import { useSearchParams } from "react-router-dom";
 import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
+import {removeHTMLTagsAndDecode} from "../utils/formatting";
+import VideoCard from "../components/VideoCard";
+import PageSelector from "../components/PageSelector";
+import { fixDate } from "../utils/formatting";
 
 
 export default function Youtube(){
@@ -12,6 +16,8 @@ export default function Youtube(){
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [empty, setEmpty] = useState(false);
+
 
     useEffect(() => {
         async function fetchData() {
@@ -20,6 +26,7 @@ export default function Youtube(){
                 const results = await GETData(url);
                 const refinedResults = refineResults(results);
                 setResults(refinedResults);
+                results.length > 1 ? setEmpty(false) : setEmpty(true);
             } catch (error) {
                 setError(true);
                 console.log(error);
@@ -30,25 +37,24 @@ export default function Youtube(){
         fetchData();
     }, []);
 
-    console.log(results)
-
     return(
         <div className="text-white">
-            <p>youtube</p>
-            {loading && <p>Loading...</p>}
-            {error && <p>Oops, something went wrong!</p>}
-            {results && results.map((result) => (<div>{result.title}</div>))}
+            <PageSelector currentPage = "videos"/>
+            {loading && <p className="text-center pb-40">Loading...</p>}
+            {error && <p className="text-center pb-40">Oops, something went wrong!</p>}
+            {empty && <p className="pb-40">We were'nt able to find any recent articles on this topic</p>}
+            {results && results.map((result, index) => (<VideoCard key={index} content={result}/>))}
         </div>
     )
 }
 
 function refineResults(results){
     return results.map((result) => ({
-        title: result.snippet.title,
-        author: result.snippet.cannelTitle,
-        description: result.snippet.description,
-        publishedAt: result.snippet.publishedAt,
-        image: result.snippet.thumbnails.high.url,
+        title: removeHTMLTagsAndDecode(result.snippet.title),
+        author: removeHTMLTagsAndDecode(result.snippet.channelTitle),
+        description: removeHTMLTagsAndDecode(result.snippet.description),
+        publishedAt: fixDate(result.snippet.publishedAt),
+        image: result.snippet.thumbnails.default.url,
         url: "https://www.youtube.com/watch?v=".concat(result.id.videoId)
     }))
 }

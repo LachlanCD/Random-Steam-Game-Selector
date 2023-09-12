@@ -1,24 +1,29 @@
 import React from "react";
 
-export default function Card ({content}) {
-
+export default function VideoCard ({content}) {
   return (
-    <div className="group relative">
-      <div className="group-hover:scale-110">
-      <div className="  w-full overflow-hidden rounded-md lg:aspect-none">
-        <img
-          src={game.header_image}
-          alt={"game image"}
-          className="h-full w-full object-cover object-center"
-        />
-      </div>
-        <div>
-          <h3 className="text-sm text-outline-2 text-zinc-50 text-center">
-            <a href={linkToGame}>
-              <span aria-hidden="true" className="absolute inset-0" />
-            </a>
-          </h3>
+    <div className="py-4">
+    <div className="group relative max-w-[800px] border p-2 rounded-lg bg-slate-800 hover:scale-110">
+      <div className="grid grid-cols-2">
+        <div className="  w-full overflow-hidden rounded-md lg:aspect-none p-2">
+          <img
+            src={content.image}
+            alt={"game image"}
+            className="h-[180px] w-full object-fill object-center"
+          />
+        </div>
+        <div className="p-2">
+          <a href={content.url}>
+            <span aria-hidden="true" className="absolute inset-0" />
+          </a>
+          <p className="pb-2">{content.title}</p>
+          <div className="grid grid-cols-2 text-[10px]">
+            <p>{content.author}</p>
+            <p>{content.publishedAt}</p>
+          </div>
+          <p className="text-[12px]">{content.description}</p>
         </div>
       </div>
-      </div>
+    </div>
+    </div>
   )};

@@ -3,6 +3,8 @@ import { GETData } from "../data/GETGame";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
 import PageSelector from "../components/PageSelector";
+import { removeHTMLTagsAndDecode } from "../utils/formatting";
+
 
 export default function GameInfo(){
     const [searchParams] = useSearchParams();
@@ -52,15 +54,9 @@ export default function GameInfo(){
     )
 }
 
-function removeHTMLTagsAndDecode(html) {
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = html;
-    return tempElement.textContent || tempElement.innerText;
-}
-
 function page(game){
     let price = "";
-    const gameGenres = game.genres.slice(0,5);
+    const gameGenres = game.genres.slice(0,4);
     try{ price = game.price_overview.final_formatted;}
     catch { price = "Free";}
     return (
@@ -77,16 +73,20 @@ function page(game){
                 <div className="border rounded-md py-2 bg-[#8A6C24]">
                     <h2 className="text-xl font-semibold mx-2">{game.name}</h2>
                 </div>
-                <div className="text-[9px] grid md:grid-cols-2 border rounded-md py-2 bg-slate-800 text-center">
-                    <p className="mx-2">Developer: {game.developers[0]}</p>
-                    <p className="mx-2">Publisher: {game.publishers[0]}</p>
-                </div>
-                <div className="text-[9px] grid md:grid-cols-2 border rounded-md py-2 bg-slate-800 text-center">
-                    <p className="mx-2">Release Date: {game.release_date.date}</p>
-                    <p className="mx-2">Price: {price}</p>
-                </div>
-                <div className={"text-[9px] grid md:grid-cols-2 lg:grid-cols-".concat(gameGenres.length)}>
-                    {gameGenres.map((category) => (categoryWidget(category.description)))}
+                <div className="space-y-2">
+                    <div className="text-[9px] grid lg:grid-cols-2 border rounded-full py-2 bg-slate-800 text-center">
+                        <p className="mx-2">Developer: {game.developers[0]}</p>
+                        <p className="mx-2">Publisher: {game.publishers[0]}</p>
+                    </div>
+                    <div className="text-[9px] grid lg:grid-cols-2 border rounded-full py-2 bg-slate-800 text-center">
+                        <p className="mx-2">Release Date: {game.release_date.date}</p>
+                        <p className="mx-2">Price: {price}</p>
+                    </div>
+                    <div className="">
+                        <div className={"grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center"}>
+                            {gameGenres.map((category) => (categoryWidget(category)))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,10 +97,10 @@ function page(game){
     )
 }
 
-function categoryWidget(name){
+function categoryWidget(category){
     return (
-        <div className="text-[9px] border rounded-md py-2 bg-slate-800 text-center">
-            <p>{name}</p>
+        <div key={category.id} className="text-[9px] border h-[30px] w-[100px] rounded-full py-2 bg-slate-800 text-center">
+            <p>{category.description}</p>
         </div>
     )
 }

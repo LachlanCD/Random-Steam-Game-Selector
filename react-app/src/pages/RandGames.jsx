@@ -41,11 +41,11 @@ export default function RandGames() {
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 xl:grid-cols-3 xl:gap-x-20">
                 {games && games.map((game) => ( <Card key={game.steam_appid} game={game} />))}
             </div>
-            {loading && <p>Loading...</p>}
-            {error && <p>Oops, something went wrong!</p>}
+            {loading && <p className="text-center">Loading...</p>}
+            {error && <p className="text-center">Oops, something went wrong!</p>}
             <div className="py-20 text-center">
                 <button
-                className="bg-sky-900 hover:bg-sky-700 hover:scale-110 text-white font-bold py-2 px-4 rounded"
+                className="bg-sky-900 hover:bg-sky-700 hover:scale-110 text-white font-bold py-2 px-4 rounded-full border border-black"
                 disabled={loading}
                 onClick={handleClick}
                 >
