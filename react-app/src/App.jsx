@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter  as Router, Routes, Route } from "react-router-dom";
 import './index.css'
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,7 +10,7 @@ import News from './pages/News';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <div className="flex flex-col min-h-screen justify-between bg-[#3f3f46]">
         <Header />
         <main className="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -23,7 +23,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   )
 }
 

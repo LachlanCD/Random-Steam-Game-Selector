@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Card ({game}) {
   const linkToGame = `/gameInfo/?id=${game.steam_appid}`
@@ -16,9 +17,9 @@ export default function Card ({game}) {
       </div>
         <div>
           <h3 className="text-sm text-outline-2 text-zinc-50 text-center">
-            <a href={linkToGame}>
+            <Link to={linkToGame}>
               <span aria-hidden="true" className="absolute inset-0" />
-            </a>
+            </Link>
           </h3>
         </div>
       </div>

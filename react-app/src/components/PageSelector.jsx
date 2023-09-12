@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
 
 export default function PageSelector(currentPage) {
 
@@ -21,13 +22,13 @@ export default function PageSelector(currentPage) {
         <div>
         <div className="sm:grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-2 flex items-center justify-center absolute top-24 left-20 right-20 ">
             <button className={buttonStyle.concat((currentPage.currentPage === 'gameInfo') ? selectedBg : unselectedBg)}>
-                <a href={linkToGame}> GameInfo </a>
+                <Link to={linkToGame}> GameInfo </Link>
             </button>
             <button className={buttonStyle.concat((currentPage.currentPage === 'videos') ? selectedBg : unselectedBg)}>
-                <a href={linkToVideos}> Videos </a>
+                <Link to={linkToVideos}> Videos </Link>
             </button>
             <button className={buttonStyle.concat((currentPage.currentPage === 'news') ? selectedBg : unselectedBg)}>
-                <a href={linkToNews}> News </a>
+                <Link to={linkToNews}> News </Link>
             </button>
         </div>
         <div className="mb-20"></div>
