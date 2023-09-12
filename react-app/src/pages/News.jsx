@@ -13,14 +13,14 @@ export default function News(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+
     useEffect(() => {
         async function fetchData() {
             try{
                 const url = await fetchConfig() + route
-                console.log(url)
                 const results = await GETData(url);
-                console.log(results)
-                setResults(results);
+                const refinedResults = refineResults(results);
+                setResults(refinedResults);
             } catch (error) {
                 setError(true);
                 console.log(error);
@@ -39,4 +39,15 @@ export default function News(){
             {results && results.map((result) => (<div>{result.title}</div>))}
         </div>
     )
+}
+
+function refineResults(results){
+    return results.map((result) => ({
+        title: result.title,
+        author: result.author,
+        description: result.description,
+        publishedAt: result.publishedAt,
+        image: result.urlToImage,
+        url: result.url
+    }))
 }

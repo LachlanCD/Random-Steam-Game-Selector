@@ -1,8 +1,6 @@
 import React from "react";
 
-export default function Card ({game}) {
-  const linkToGame = `/gameInfo/?id=${game.steam_appid}`
-
+export default function Card ({content}) {
 
   return (
     <div className="group relative">

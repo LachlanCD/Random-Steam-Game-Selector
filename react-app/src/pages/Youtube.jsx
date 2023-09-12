@@ -18,8 +18,8 @@ export default function Youtube(){
             try{
                 const url = await fetchConfig() + route
                 const results = await GETData(url);
-                console.log(results)
-                setResults(results);
+                const refinedResults = refineResults(results);
+                setResults(refinedResults);
             } catch (error) {
                 setError(true);
                 console.log(error);
@@ -30,12 +30,25 @@ export default function Youtube(){
         fetchData();
     }, []);
 
+    console.log(results)
+
     return(
         <div className="text-white">
             <p>youtube</p>
             {loading && <p>Loading...</p>}
             {error && <p>Oops, something went wrong!</p>}
-            {results && results.map((result) => (<div>{result.snippet.title}</div>))}
+            {results && results.map((result) => (<div>{result.title}</div>))}
         </div>
     )
+}
+
+function refineResults(results){
+    return results.map((result) => ({
+        title: result.snippet.title,
+        author: result.snippet.cannelTitle,
+        description: result.snippet.description,
+        publishedAt: result.snippet.publishedAt,
+        image: result.snippet.thumbnails.high.url,
+        url: "https://www.youtube.com/watch?v=".concat(result.id.videoId)
+    }))
 }
