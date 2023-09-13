@@ -8,7 +8,7 @@ export default function VideoCard ({content}) {
         <div className="  w-full overflow-hidden rounded-md lg:aspect-none p-2">
           <img
             src={content.image}
-            alt={"game image"}
+            alt={"thumbnail"}
             className="h-[180px] w-full object-fill object-center"
           />
         </div>
