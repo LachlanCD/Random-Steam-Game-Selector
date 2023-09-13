@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React } from 'react'
 import { HashRouter  as Router, Routes, Route } from "react-router-dom";
 import './index.css'
 import Header from './components/Header';
@@ -8,6 +8,7 @@ import GameInfo from "./pages/GameInfo";
 import Youtube from './pages/Youtube';
 import News from './pages/News';
 
+// render the app
 function App() {
   return (
     <Router>

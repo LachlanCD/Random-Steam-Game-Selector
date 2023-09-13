@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 
+// returns the navigation options for switching between game info, videos and news articles
 export default function PageSelector(currentPage) {
 
     const [game, setGame] = useState({});
@@ -11,6 +12,7 @@ export default function PageSelector(currentPage) {
     const unselectedBg = "bg-[#23406e]";
     const buttonStyle = "rounded-full border-2 border-black text-white w-32 h-12 text-center hover:scale-110 ";
     
+    // use effect to retrieve the current game from local storage rather than re-querying each time
     useEffect(() => {
         const cachedData = localStorage.getItem("curGame");
         if(cachedData){

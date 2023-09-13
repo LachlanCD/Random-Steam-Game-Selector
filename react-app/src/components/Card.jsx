@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// generates the cards for the game images and links to game info
 export default function Card ({game}) {
   const linkToGame = `/gameInfo/?id=${game.steam_appid}`
-
 
   return (
     <div className="group relative">

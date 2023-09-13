@@ -1,29 +1,35 @@
 import { useSearchParams } from "react-router-dom";
-import { GETData } from "../data/GETGame";
+import { GETData } from "../data/GETData";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
 import PageSelector from "../components/PageSelector";
 import { removeHTMLTagsAndDecode } from "../utils/formatting";
 
-
+// page that returns the info on the selected game
 export default function GameInfo(){
+    // set the current route for querying the api
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
     const route = `/steam/${id}`
 
+    // set the game
     const [game, setGame] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    // use effect for retrieving the game 
     useEffect(() => {
+        // if the game is in local storage return it
         const cachedData = JSON.parse(localStorage.getItem("games"));
         const game = cachedData.find(game => game.steam_appid === Number(id));
         if (game) {
+            // the steam API formats their descriptions as HTML so this has to be fixed and the characters need to be converted
             game.about_the_game = removeHTMLTagsAndDecode(game.about_the_game);
             setGame(game);
             setLoading(false);
             return
         }
+        // if the game couldnt be found in local storage, retrieve it from the steam API
         async function fetchData() {
             try{
                 const url = await fetchConfig() + route
@@ -40,6 +46,7 @@ export default function GameInfo(){
         fetchData();
     }, []);
 
+    // update the current game in local storage
     useEffect(() => {
         localStorage.setItem("curGame", JSON.stringify(game))
     }, [game])  
@@ -54,7 +61,9 @@ export default function GameInfo(){
     )
 }
 
+// formatting of the game information on the page
 function page(game){
+    // format price and genres as if price is free it the attribute wont be listed
     let price = "";
     const gameGenres = game.genres.slice(0,4);
     try{ price = game.price_overview.final_formatted;}
@@ -97,6 +106,7 @@ function page(game){
     )
 }
 
+// formatting of the game categories
 function categoryWidget(category){
     return (
         <div key={category.id} className="text-[9px] border h-[30px] w-[100px] rounded-full py-2 bg-slate-800 text-center">

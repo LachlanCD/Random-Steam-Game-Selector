@@ -1,5 +1,6 @@
 import React from "react";
 
+// returns the card for the video and news articles with links to the corresponding videos and articles
 export default function VideoCard ({content}) {
   return (
     <div className="py-4">

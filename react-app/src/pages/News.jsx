@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { GETData } from "../data/GETGame";
+import { GETData } from "../data/GETData";
 import { useState, useEffect } from "react";
 import { fetchConfig } from "../utils/fetchConfig";
 import {removeHTMLTagsAndDecode} from "../utils/formatting";
@@ -7,26 +7,28 @@ import VideoCard from "../components/VideoCard";
 import PageSelector from "../components/PageSelector";
 import { fixDate } from "../utils/formatting";
 
-
+// page for the news articles
 export default function News(){
+    // set the query for the express API
     const [searchParams] = useSearchParams();
     const query = searchParams.get("query");
     const route = `/news/${query}`
 
+    // set default variables
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [empty, setEmpty] = useState(false);
 
-
+    // retrieve the information from the API 
     useEffect(() => {
         async function fetchData() {
             try{
                 const url = await fetchConfig() + route
                 const results = await GETData(url);
                 const refinedResults = refineResults(results);
-                setResults(refinedResults);
-                results.length > 1 ? setEmpty(false) : setEmpty(true);
+                setResults(refinedResults); // change the returned JSON object to be the values specified
+                results.length > 1 ? setEmpty(false) : setEmpty(true); // if the results are empty display error message
             } catch (error) {
                 setError(true);
                 console.log(error);
@@ -48,6 +50,7 @@ export default function News(){
     )
 }
 
+// chagne the JSON object to work with the videocard component
 function refineResults(results){
     return results.map((result) => ({
         title: removeHTMLTagsAndDecode(result.title),

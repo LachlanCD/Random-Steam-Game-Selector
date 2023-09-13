@@ -1,8 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { fetchConfig } from "../utils/fetchConfig";
-import { GETData } from "../data/GETGame";
+import { GETData } from "../data/GETData";
 
+
+// generates the footer of the page
 export default function Footer (){
     const [counter, setCounter] = useState({});
     const [loading, setLoading] = useState(false);
@@ -10,6 +12,7 @@ export default function Footer (){
 
     const counterRoute = "/counter"
 
+    // use effect to get the current status of the page counter
     useEffect(() => {
         async function fetchData() {
             try{

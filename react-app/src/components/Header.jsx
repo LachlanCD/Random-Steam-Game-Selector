@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
+// returns the header of the page
 export default function Header() {
   return (
     <header className="bg-slate-800 p-4">
