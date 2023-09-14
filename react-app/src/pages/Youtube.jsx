@@ -57,7 +57,7 @@ function refineResults(results){
         author: removeHTMLTagsAndDecode(result.snippet.channelTitle),
         description: removeHTMLTagsAndDecode(result.snippet.description),
         publishedAt: fixDate(result.snippet.publishedAt),
-        image: result.snippet.thumbnails.default.url,
+        image: result.snippet.thumbnails.medium.url,
         url: "https://www.youtube.com/watch?v=".concat(result.id.videoId)
     }))
 }
