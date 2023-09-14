@@ -11,7 +11,7 @@ import { fixDate } from "../utils/formatting";
 export default function Youtube(){
     // set the url request for the API
     const [searchParams] = useSearchParams();
-    const query = searchParams.get("query");
+    const query = searchParams.get("query").concat(" steam game");
     const route = `/youtube/${query}`
 
     // set default variables
